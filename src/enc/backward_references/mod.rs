@@ -2307,7 +2307,7 @@ fn CreateBackwardReferences<AH: AnyHasher>(dictionary: Option<&BrotliDictionary>
   *num_commands = (*num_commands).wrapping_add(new_commands_count);
 }
 pub fn BrotliCreateBackwardReferences<Alloc: alloc::Allocator<u16> + alloc::Allocator<u32> + alloc::Allocator<u64> + alloc::Allocator<floatX> + alloc::Allocator<ZopfliNode>>
-  (alloc : &mut Alloc,
+  (_alloc : &mut Alloc,
    dictionary: &BrotliDictionary,
    num_bytes: usize,
    position: usize,
@@ -2322,37 +2322,8 @@ pub fn BrotliCreateBackwardReferences<Alloc: alloc::Allocator<u16> + alloc::Allo
    num_literals: &mut usize) {
   match (hasher_union) {
     &mut UnionHasher::Uninit => panic!("working with uninitialized hash map"),
-      &mut UnionHasher::H10(ref mut hasher) => {
-          if params.quality >= 11 {
-              super::backward_references_hq::BrotliCreateHqZopfliBackwardReferences(
-                  alloc, if params.use_dictionary {Some(dictionary)} else {None},
-                  num_bytes,
-                  position,
-                  ringbuffer,
-                  ringbuffer_mask,
-                  params,
-                  hasher,
-                  dist_cache,
-                  last_insert_len,
-                  commands,
-                  num_commands,
-                  num_literals)
-          } else {
-              super::backward_references_hq::BrotliCreateZopfliBackwardReferences(
-                  alloc,
-                  if params.use_dictionary {Some(dictionary)} else {None},
-                  num_bytes,
-                  position,
-                  ringbuffer,
-                  ringbuffer_mask,
-                  params,
-                  hasher,
-                  dist_cache,
-                  last_insert_len,
-                  commands,
-                  num_commands,
-                  num_literals)
-          }
+    &mut UnionHasher::H10(ref mut _hasher) => {
+      unimplemented!()
     }
     &mut UnionHasher::H2(ref mut hasher) => {
       CreateBackwardReferences(if params.use_dictionary {Some(dictionary)} else {None},

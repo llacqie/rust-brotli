@@ -12,7 +12,7 @@ fn main() {
         let mut writer = brotli::CompressorWriter::new(
             stdout,
             4096,
-            11,
+            9,
             22);
         let mut buf = [0u8; 4096];
         loop {
